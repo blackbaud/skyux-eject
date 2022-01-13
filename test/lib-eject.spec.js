@@ -464,7 +464,7 @@ describe('Eject', () => {
 
     await eject();
 
-    expect(migrateSkyuxConfigFilesSpy).toHaveBeenCalledWith(ejectedProjectPath);
+    expect(migrateSkyuxConfigFilesSpy).toHaveBeenCalledWith();
   });
 
   it('should update package.json', async () => {

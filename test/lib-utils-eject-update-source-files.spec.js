@@ -25,10 +25,8 @@ describe('updateSourceFiles', () => {
         return [
           path.join(ejectedProjectPath, 'src/app/bar/bar.component.ts'),
           path.join(ejectedProjectPath, 'src/app/bar/bar.component.scss'),
-          path.join(ejectedProjectPath, 'src/app/bar/bar.component.spec.ts'),
           path.join(ejectedProjectPath, 'src/app/foo/foo.component.html'),
           path.join(ejectedProjectPath, 'src/app/foo/foo.component.scss'),
-          path.join(ejectedProjectPath, 'src/app/foo/foo.component.spec.ts'),
           path.join(ejectedProjectPath, 'src/app/styles.css'),
         ];
       }
@@ -40,12 +38,6 @@ describe('updateSourceFiles', () => {
       .createSpy('readFileSync')
       .and.callFake((filePath) => {
         switch (path.basename(filePath)) {
-          case 'bar.component.spec.ts':
-            return `import { SkyAuthFoo } from '@skyux/http';
-import {
-  SkyAuthTestFoo
-} from '@skyux/http/testing';
-import { SkyAppResourcesTestService } from '@skyux/i18n/testing';`;
           case 'bar.component.scss':
             return 'span { color: red }';
           case 'bar.component.ts':
@@ -54,8 +46,6 @@ import { SkyAppResourcesTestService } from '@skyux/i18n/testing';`;
             return '<img src="~/assets/image.png"><img src="~/assets/image2.png">';
           case 'foo.component.scss':
             return '.img { background-image: url(~/assets/image.png) }';
-          case 'foo.component.spec.ts':
-            return `import { SkyAppTestModule } from '@skyux-sdk/builder/runtime/testing/browser';`;
           case 'styles.css':
             return 'div { background-image: url("~/assets/image.png") }';
         }
@@ -89,16 +79,7 @@ import { SkyAppResourcesTestService } from '@skyux/i18n/testing';`;
   it('should update source files', () => {
     updateSourceFiles(ejectedProjectPath);
 
-    expect(writeFileSyncSpy).toHaveBeenCalledTimes(6);
-
-    validateWriteFile(
-      path.join(ejectedProjectPath, 'src/app/bar/bar.component.spec.ts'),
-      `import { SkyAuthFoo } from '@blackbaud-internal/skyux-auth';
-import {
-  SkyAuthTestFoo
-} from '@blackbaud-internal/skyux-auth/testing';
-import { SkyAppResourcesTestService } from 'src/app/__skyux/testing';`
-    );
+    expect(writeFileSyncSpy).toHaveBeenCalledTimes(4);
 
     validateWriteFile(
       path.join(ejectedProjectPath, 'src/app/bar/bar.component.ts'),
@@ -113,11 +94,6 @@ import { SkyAppResourcesTestService } from 'src/app/__skyux/testing';`
     validateWriteFile(
       path.join(ejectedProjectPath, 'src/app/foo/foo.component.scss'),
       '.img { background-image: url(assets/image.png) }'
-    );
-
-    validateWriteFile(
-      path.join(ejectedProjectPath, 'src/app/foo/foo.component.spec.ts'),
-      `import { SkyAppTestModule } from 'src/app/__skyux/testing';`
     );
 
     validateWriteFile(
