@@ -4,7 +4,7 @@
   "description": "Migrates a SKY UX 4 SPA to Angular 12/SKY UX 5",
   "main": "index.js",
   "bin": {
-    "skyux-eject": "index.js"
+    "skyux-eject": "bin/skyux-eject.js"
   },
   "scripts": {
     "coverage": "nyc jasmine --config=jasmine.json",
