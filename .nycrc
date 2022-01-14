@@ -1,0 +1,15 @@
+{
+  "all": true,
+  "include": [
+    "lib/**/*.js"
+  ],
+  "exclude": [
+    "test",
+    "lib/utils/strings.js"
+  ],
+  "reporter": [
+    "lcov",
+    "text-summary",
+    "html"
+  ]
+}
